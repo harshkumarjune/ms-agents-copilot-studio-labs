@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/copilot/plugin/v2.2/schema.json",
+  "schema_version": "v2.2",
+  "name_for_human": "Contoso Repair Service",
+  "description_for_human": "Manage device repairs, check status, and schedule appointments",
+  "namespace": "repairs",
+  "functions": [
+    {
+      "name": "getRepairStatus",
+      "description": "Get the current status of a repair ticket by its ID"
+    },
+    {
+      "name": "listRepairs",
+      "description": "List all repair tickets for a customer"
+    },
+    {
+      "name": "createRepair",
+      "description": "Create a new repair request for a device"
+    },
+    {
+      "name": "getEstimate",
+      "description": "Get a cost estimate for a specific type of repair"
+    },
+    {
+      "name": "scheduleAppointment",
+      "description": "Schedule a repair appointment at a service center"
+    }
+  ],
+  "runtimes": [
+    {
+      "type": "OpenApi",
+      "auth": {
+        "type": "None"
+      },
+      "spec": {
+        "url": "apiSpecificationFile/repairservice.json"
+      }
+    }
+  ]
+}

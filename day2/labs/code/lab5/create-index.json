@@ -1,0 +1,34 @@
+{
+  "name": "products",
+  "fields": [
+    {"name": "id", "type": "Edm.String", "key": true},
+    {"name": "name", "type": "Edm.String", "searchable": true, "sortable": true},
+    {"name": "description", "type": "Edm.String", "searchable": true},
+    {"name": "category", "type": "Edm.String", "searchable": true, "filterable": true, "facetable": true},
+    {"name": "brand", "type": "Edm.String", "searchable": true, "filterable": true, "facetable": true},
+    {"name": "price", "type": "Edm.Double", "filterable": true, "sortable": true},
+    {"name": "rating", "type": "Edm.Double", "filterable": true, "sortable": true},
+    {"name": "features", "type": "Collection(Edm.String)", "searchable": true},
+    {"name": "specs", "type": "Edm.String", "searchable": true},
+    {"name": "inStock", "type": "Edm.Boolean", "filterable": true},
+    {"name": "imageUrl", "type": "Edm.String"}
+  ],
+  "semantic": {
+    "configurations": [
+      {
+        "name": "product-semantic",
+        "prioritizedFields": {
+          "titleField": {"fieldName": "name"},
+          "contentFields": [
+            {"fieldName": "description"},
+            {"fieldName": "specs"}
+          ],
+          "keywordsFields": [
+            {"fieldName": "features"},
+            {"fieldName": "category"}
+          ]
+        }
+      }
+    ]
+  }
+}

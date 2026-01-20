@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.17/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.17",
+  "version": "1.0.0",
+  "id": "${{TEAMS_APP_ID}}",
+  "developer": {
+    "name": "Contoso Learning",
+    "websiteUrl": "https://www.contoso.com",
+    "privacyUrl": "https://www.contoso.com/privacy",
+    "termsOfUseUrl": "https://www.contoso.com/terms"
+  },
+  "name": {
+    "short": "GeoQuest",
+    "full": "GeoQuest Challenge - Geography Trivia Game"
+  },
+  "description": {
+    "short": "Test your geography knowledge!",
+    "full": "GeoQuest Challenge is an exciting geography trivia game where you guess locations from clever clues. Choose your difficulty, earn points, and become a Geography Genius!"
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "accentColor": "#2E7D32",
+  "copilotAgents": {
+    "declarativeAgents": [
+      {
+        "id": "geoQuestAgent",
+        "file": "declarativeAgent.json"
+      }
+    ]
+  },
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": []
+}

@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 1: Build Agents for Microsoft 365 Copilot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0f0f0f;
+            color: #ffffff;
+            overflow: hidden;
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .slide.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .slide-title {
+            background: linear-gradient(135deg, #0078D4, #50E6FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 3.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .slide-subtitle {
+            color: #888;
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .slide-content {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .bullet-list {
+            list-style: none;
+            font-size: 1.8rem;
+            line-height: 2.5;
+        }
+
+        .bullet-list li {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.5s ease;
+            padding-left: 40px;
+            position: relative;
+        }
+
+        .bullet-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            background: linear-gradient(135deg, #0078D4, #50E6FF);
+            border-radius: 50%;
+        }
+
+        .bullet-list li.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.3rem;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #0078D4, #00BCF2);
+            padding: 20px;
+            text-align: left;
+        }
+
+        .comparison-table td {
+            padding: 20px;
+            border-bottom: 1px solid #333;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            border-radius: 12px;
+            padding: 30px;
+            font-family: 'Cascadia Code', 'Fira Code', monospace;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            overflow-x: auto;
+            border: 1px solid #333;
+        }
+
+        .code-keyword { color: #569CD6; }
+        .code-string { color: #CE9178; }
+        .code-comment { color: #6A9955; }
+        .code-property { color: #9CDCFE; }
+
+        .diagram-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .diagram-item {
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            border: 2px solid #0078D4;
+            border-radius: 16px;
+            padding: 30px 40px;
+            text-align: center;
+            min-width: 200px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .diagram-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 120, 212, 0.3);
+        }
+
+        .diagram-item h3 {
+            color: #50E6FF;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+
+        .diagram-item p {
+            color: #aaa;
+            font-size: 1rem;
+        }
+
+        .arrow {
+            font-size: 2rem;
+            color: #0078D4;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .progress-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #0078D4, #50E6FF);
+            transition: width 0.3s ease;
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .speaker-notes {
+            display: none;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            width: 100%;
+        }
+
+        .two-column .bullet-list {
+            font-size: 1.2rem;
+            line-height: 1.9;
+        }
+
+        .two-column .bullet-list li {
+            padding-left: 25px;
+            white-space: nowrap;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(0,120,212,0.2), rgba(80,230,255,0.1));
+            border-left: 4px solid #0078D4;
+            padding: 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+
+        .icon-large {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .flex-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .agent-loop {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .loop-step {
+            background: linear-gradient(145deg, #1a1a2e, #0f3460);
+            border: 2px solid #0078D4;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: fadeInScale 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .loop-step:nth-child(1) { animation-delay: 0.2s; }
+        .loop-step:nth-child(3) { animation-delay: 0.4s; }
+        .loop-step:nth-child(5) { animation-delay: 0.6s; }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .loop-arrow {
+            font-size: 2rem;
+            color: #50E6FF;
+            animation: bounceRight 1s infinite;
+        }
+
+        @keyframes bounceRight {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+        }
+
+        .nav-hint {
+            position: fixed;
+            bottom: 20px;
+            left: 30px;
+            color: #444;
+            font-size: 0.9rem;
+        }
+
+        /* Title slide specific */
+        .title-slide {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #0f3460 100%);
+        }
+
+        .title-slide .main-title {
+            font-size: 4rem;
+            background: linear-gradient(135deg, #0078D4, #50E6FF, #00BCF2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .title-slide .course-code {
+            color: #50E6FF;
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+        }
+
+        .title-slide .trainer-info {
+            color: #888;
+            font-size: 1.2rem;
+        }
+
+        .microsoft-logo {
+            width: 60px;
+            margin-bottom: 30px;
+            filter: brightness(0) invert(1);
+        }
+
+        /* Animation for slide transitions */
+        .slide.slide-in-right {
+            animation: slideInRight 0.5s ease forwards;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <!-- Slide 1: Title -->
+        <div class="slide active title-slide" data-slide="1">
+            <div class="flex-center">
+                <svg class="microsoft-logo" viewBox="0 0 23 23">
+                    <rect x="1" y="1" width="10" height="10" fill="#f25022"/>
+                    <rect x="12" y="1" width="10" height="10" fill="#7fba00"/>
+                    <rect x="1" y="12" width="10" height="10" fill="#00a4ef"/>
+                    <rect x="12" y="12" width="10" height="10" fill="#ffb900"/>
+                </svg>
+                <h1 class="main-title">Build Agents for Microsoft 365 Copilot</h1>
+                <p class="course-code">Module 1 | Day 1</p>
+                <p class="trainer-info">Microsoft 365 Agents Pro-Code Training</p>
+            </div>
+            <div class="speaker-notes">
+                Welcome everyone to Day 1 of our Microsoft 365 Agents Pro-Code Training.
+                Today we'll transform you from curious developers into confident agent builders.
+                By the end of today, you'll have built your own agents that run inside Microsoft 365 Copilot.
+            </div>
+        </div>
+
+        <!-- Slide 2: Your Trainer -->
+        <div class="slide" data-slide="2">
+            <h2 class="slide-title">Your Trainer</h2>
+            <div class="slide-content" style="display: flex; gap: 60px; align-items: flex-start;">
+                <div style="flex: 0 0 280px; text-align: center;">
+                    <img src="../harsh-photo.png" alt="Harsh Kumar" style="width: 250px; height: 250px; border-radius: 50%; border: 4px solid #0078D4; object-fit: cover; margin-bottom: 20px;">
+                    <h3 style="font-size: 1.8rem; margin-bottom: 5px;">Harsh Kumar</h3>
+                    <p style="color: #50E6FF; font-size: 1.1rem;">Corporate Trainer | SME | Faculty</p>
+                </div>
+                <div style="flex: 1;">
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px;">
+                        <div style="text-align: center; background: linear-gradient(145deg, #1a1a2e, #16213e); padding: 20px; border-radius: 12px; border: 1px solid #333;">
+                            <div style="font-size: 2.5rem; font-weight: bold; color: #50E6FF;">10+</div>
+                            <div style="color: #888; font-size: 0.9rem;">Years Experience</div>
+                        </div>
+                        <div style="text-align: center; background: linear-gradient(145deg, #1a1a2e, #16213e); padding: 20px; border-radius: 12px; border: 1px solid #333;">
+                            <div style="font-size: 2.5rem; font-weight: bold; color: #50E6FF;">2000+</div>
+                            <div style="color: #888; font-size: 0.9rem;">Training Hours</div>
+                        </div>
+                        <div style="text-align: center; background: linear-gradient(145deg, #1a1a2e, #16213e); padding: 20px; border-radius: 12px; border: 1px solid #333;">
+                            <div style="font-size: 2.5rem; font-weight: bold; color: #50E6FF;">10K+</div>
+                            <div style="color: #888; font-size: 0.9rem;">Participants</div>
+                        </div>
+                        <div style="text-align: center; background: linear-gradient(145deg, #1a1a2e, #16213e); padding: 20px; border-radius: 12px; border: 1px solid #333;">
+                            <div style="font-size: 2.5rem; font-weight: bold; color: #50E6FF;">4.8/5</div>
+                            <div style="color: #888; font-size: 0.9rem;">Avg Rating</div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 25px;">
+                        <h4 style="color: #0078D4; margin-bottom: 10px; font-size: 1.1rem;">Education</h4>
+                        <p style="color: #ccc; font-size: 1rem; line-height: 1.6;">MBA, University of Alberta | B.E., Pune University</p>
+                    </div>
+                    <div style="margin-bottom: 25px;">
+                        <h4 style="color: #0078D4; margin-bottom: 10px; font-size: 1.1rem;">Certifications</h4>
+                        <p style="color: #ccc; font-size: 1rem; line-height: 1.6;">Databricks (3) | AWS Solutions Architect & ML | Azure Architect & Data Scientist | GCP Data & ML Engineer | Snowflake | CKA | Terraform | PMP | CSM</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #0078D4; margin-bottom: 10px; font-size: 1.1rem;">Expertise</h4>
+                        <p style="color: #ccc; font-size: 1rem; line-height: 1.6;">Data Science | Machine Learning | Generative AI | LangChain | Claude Code | Cursor Agent | Azure | AWS | GCP | DevOps | MLOps</p>
+                    </div>
+                </div>
+            </div>
+            <div class="speaker-notes">
+                Quick introduction - I've been training for over 10 years across Data Science, ML, GenAI, and modern development tools.
+                Today we're focusing on Microsoft 365 Agents - let's dive in!
+            </div>
+        </div>
+
+        <!-- Slide 3: Agenda -->
+        <div class="slide" data-slide="3">
+            <h2 class="slide-title">Today's Agenda</h2>
+            <div class="slide-content">
+                <ul class="bullet-list">
+                    <li>Copilots and Agents: Understanding the Difference</li>
+                    <li>Microsoft 365 Copilot Extensibility</li>
+                    <li>M365 Agents Toolkit Deep Dive</li>
+                    <li>Lab 1: Build a Repair Service Agent</li>
+                    <li>Lab 2: Create a Geo Locator Game</li>
+                    <li>M365 Agents SDK & Semantic Kernel</li>
+                    <li>Lab 3: Custom Engine Agent</li>
+                </ul>
+            </div>
+            <div class="speaker-notes">
+                We have a packed schedule with three hands-on labs today.
+                The key is balancing theory with practice - for every concept we learn, you'll immediately apply it.
+            </div>
+        </div>
+
+        <!-- Slide 4: Learning Objectives -->
+        <div class="slide" data-slide="4">
+            <h2 class="slide-title">Learning Objectives</h2>
+            <div class="slide-content">
+                <ul class="bullet-list">
+                    <li>Understand the difference between Copilots and Agents</li>
+                    <li>Build declarative agents with JSON configuration</li>
+                    <li>Create API plugins using TypeSpec</li>
+                    <li>Write effective agent instructions</li>
+                    <li>Implement custom engine agents with Semantic Kernel</li>
+                    <li>Debug and test agents locally</li>
+                    <li>Deploy agents to Microsoft 365</li>
+                    <li>Apply security best practices</li>
+                </ul>
+            </div>
+            <div class="speaker-notes">
+                By the end of today, you'll be able to do all eight of these things.
+                Pick two that you're most excited about - we'll circle back at the end to see if we achieved them.
+            </div>
+        </div>
+
+        <!-- Slide 5: What are Copilots? -->
+        <div class="slide" data-slide="5">
+            <h2 class="slide-title">What are Copilots?</h2>
+            <div class="slide-content two-column">
+                <div>
+                    <ul class="bullet-list">
+                        <li>AI-powered assistants embedded in apps</li>
+                        <li>Understand context and help get work done</li>
+                        <li>Built into Word, Excel, Teams, Outlook</li>
+                        <li>Designed to be extended</li>
+                    </ul>
+                </div>
+                <div class="diagram-box" style="flex-direction: column;">
+                    <div class="diagram-item" style="width: 100%;">
+                        <h3>Microsoft 365 Copilot</h3>
+                        <p>Your AI co-worker across all M365 apps</p>
+                    </div>
+                    <div style="display: flex; gap: 15px; margin-top: 20px;">
+                        <div class="diagram-item">
+                            <p>Word</p>
+                        </div>
+                        <div class="diagram-item">
+                            <p>Excel</p>
+                        </div>
+                        <div class="diagram-item">
+                            <p>Teams</p>
+                        </div>
+                        <div class="diagram-item">
+                            <p>Outlook</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="speaker-notes">
+                Think of Copilot as your AI-powered co-worker. It's always there, understands context, and helps you get things done faster.
+                Microsoft has built Copilot into everywhere you work. But here's the key insight: Copilot is designed to be extended. That's where YOU come in.
+            </div>
+        </div>
+
+        <!-- Slide 6: What are Agents? -->
+        <div class="slide" data-slide="6">
+            <h2 class="slide-title">What are Agents?</h2>
+            <div class="slide-content">
+                <div class="highlight-box" style="font-size: 1.5rem; text-align: center; margin-bottom: 40px;">
+                    If Copilots assist, <strong style="color: #50E6FF;">Agents act autonomously</strong>
+                </div>
+                <div class="two-column">
+                    <div>
+                        <h3 style="color: #50E6FF; margin-bottom: 20px;">Copilot (Assistant)</h3>
+                        <p style="font-size: 1.3rem; line-height: 1.8; color: #aaa;">
+                            "Help me write this email"<br>
+                            User-initiated, assists with tasks,<br>
+                            requires human decision-making
+                        </p>
+                    </div>
+                    <div>
+                        <h3 style="color: #50E6FF; margin-bottom: 20px;">Agent (Autonomous)</h3>
+                        <p style="font-size: 1.3rem; line-height: 1.8; color: #aaa;">
+                            "Monitor inbox and flag urgent items"<br>
+                            Can be proactive, executes tasks,<br>
+                            makes decisions within boundaries
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="speaker-notes">
+                Here's the key difference: Copilots assist, Agents act autonomously.
+                Think of it this way: A Copilot is like a smart intern who helps you write emails.
+                An Agent is like a virtual employee who can actually send emails, schedule meetings, and update your CRM.
+            </div>
+        </div>
+
+        <!-- Slide 7: The Agent Loop -->
+        <div class="slide" data-slide="7">
+            <h2 class="slide-title">The Agent Loop</h2>
+            <div class="slide-content">
+                <div class="agent-loop">
+                    <div class="loop-step">
+                        <span style="font-size: 2rem;">👁</span>
+                        <span>Observe</span>
+                    </div>
+                    <span class="loop-arrow">→</span>
+                    <div class="loop-step">
+                        <span style="font-size: 2rem;">🧠</span>
+                        <span>Think</span>
+                    </div>
+                    <span class="loop-arrow">→</span>
+                    <div class="loop-step">
+                        <span style="font-size: 2rem;">⚡</span>
+                        <span>Act</span>
+                    </div>
+                </div>
+                <div class="highlight-box" style="max-width: 800px; margin: 30px auto;">
+                    <p style="font-size: 1.3rem; line-height: 1.8;">
+                        <strong>Observe:</strong> Perceive user message, event, or data change<br>
+                        <strong>Think:</strong> AI reasons about what to do<br>
+                        <strong>Act:</strong> Call API, update record, respond to user
+                    </p>
+                </div>
+                <p style="text-align: center; color: #888; font-size: 1.2rem;">
+                    This loop repeats continuously - that's what makes agents powerful.
+                </p>
+            </div>
+            <div class="speaker-notes">
+                Every agent follows this fundamental loop: Observe, Think, Act, and repeat.
+                The agent perceives something, the AI reasons about what to do, then the agent takes action.
+                This loop happens continuously, and that's what makes agents powerful.
+            </div>
+        </div>
+
+        <!-- Slide 8: Comparison Table -->
+        <div class="slide" data-slide="8">
+            <h2 class="slide-title">Copilots vs Agents</h2>
+            <div class="slide-content">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>Copilot</th>
+                            <th>Agent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Autonomy</td>
+                            <td>Assists user actions</td>
+                            <td>Can act independently</td>
+                        </tr>
+                        <tr>
+                            <td>Scope</td>
+                            <td>Broad, general-purpose</td>
+                            <td>Specialized, task-focused</td>
+                        </tr>
+                        <tr>
+                            <td>Control</td>
+                            <td>User-initiated</td>
+                            <td>Can be proactive</td>
+                        </tr>
+                        <tr>
+                            <td>Example</td>
+                            <td>"Help me write this email"</td>
+                            <td>"Monitor inbox and flag urgent items"</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="speaker-notes">
+                Here's a side-by-side comparison. Think about use cases in your organization that would be better suited for an agent than just using Copilot directly.
+            </div>
+        </div>
+
+        <!-- Slide 9: Microsoft AI Stack -->
+        <div class="slide" data-slide="9">
+            <h2 class="slide-title">Microsoft AI Architecture</h2>
+            <div class="slide-content">
+                <div class="diagram-box" style="flex-direction: column; gap: 20px;">
+                    <div class="diagram-item" style="width: 80%;">
+                        <h3>User Interfaces</h3>
+                        <p>Teams | Outlook | Word | Excel | Web Apps</p>
+                    </div>
+                    <span class="arrow">↓</span>
+                    <div class="diagram-item" style="width: 80%;">
+                        <h3>Microsoft 365 Copilot</h3>
+                        <p>Orchestration | Grounding | Reasoning | Actions</p>
+                    </div>
+                    <span class="arrow">↓</span>
+                    <div style="display: flex; gap: 20px;">
+                        <div class="diagram-item">
+                            <h3>Azure OpenAI</h3>
+                            <p>GPT-4 / Embeddings</p>
+                        </div>
+                        <div class="diagram-item">
+                            <h3>Microsoft Graph</h3>
+                            <p>Organizational Data</p>
+                        </div>
+                        <div class="diagram-item">
+                            <h3>Copilot Studio</h3>
+                            <p>Agent Development</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="speaker-notes">
+                Before we build, let's understand where our agents fit in the bigger picture.
+                Azure OpenAI is the brain. Microsoft Graph provides access to organizational data.
+                Copilot Studio is where you build agents. The M365 Agents Toolkit is your developer workbench.
+            </div>
+        </div>
+
+        <!-- Slide 10: Extensibility Points -->
+        <div class="slide" data-slide="10">
+            <h2 class="slide-title">M365 Copilot Extensibility</h2>
+            <div class="slide-content">
+                <div class="diagram-box">
+                    <div class="diagram-item">
+                        <h3>Declarative Agents</h3>
+                        <p>Configuration-based<br>Fastest path<br>JSON manifests</p>
+                    </div>
+                    <div class="diagram-item">
+                        <h3>Message Extensions</h3>
+                        <p>Interactive cards<br>Search capabilities<br>Adaptive UI</p>
+                    </div>
+                    <div class="diagram-item">
+                        <h3>Custom Engine</h3>
+                        <p>Full code control<br>Custom LLMs<br>Advanced scenarios</p>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 40px;">
+                    <p style="font-size: 1.2rem;">
+                        Microsoft 365 Copilot was designed from day one to be extended.
+                        Choose your extensibility path based on requirements.
+                    </p>
+                </div>
+            </div>
+            <div class="speaker-notes">
+                There are three main ways to extend Microsoft 365 Copilot.
+                Declarative Agents are the fastest path - mostly configuration.
+                Message Extensions are for interactive cards and search.
+                Custom Engine Agents give full code control for advanced scenarios.
+            </div>
+        </div>
+
+        <!-- Slide 11: Declarative Agent Architecture -->
+        <div class="slide" data-slide="11">
+            <h2 class="slide-title">Declarative Agent Architecture</h2>
+            <div class="slide-content two-column">
+                <div>
+                    <p style="font-size: 1.3rem; margin-bottom: 30px; color: #aaa;">
+                        Defined by JSON manifest - you describe <strong>what</strong>,
+                        the platform handles <strong>how</strong>.
+                    </p>
+                    <div class="code-block">
+<span class="code-comment">// declarativeAgent.json</span>
+{
+  <span class="code-property">"name"</span>: <span class="code-string">"HR Assistant"</span>,
+  <span class="code-property">"instructions"</span>: <span class="code-string">"You help employees with HR questions..."</span>,
+  <span class="code-property">"actions"</span>: [...]
+}
+                    </div>
+                </div>
+                <div>
+                    <h3 style="color: #50E6FF; margin-bottom: 20px;">Manifest Components</h3>
+                    <ul class="bullet-list" style="font-size: 1.3rem;">
+                        <li>Name & Description</li>
+                        <li>Instructions (system prompt)</li>
+                        <li>Capabilities</li>
+                        <li>Actions (plugins/APIs)</li>
+                        <li>Conversation Starters</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="speaker-notes">
+                A declarative agent is defined by a JSON manifest. You don't write orchestration code.
+                The instructions field is where the magic happens - it's your chance to program the AI's personality, knowledge boundaries, and behavior patterns.
+            </div>
+        </div>
+
+        <!-- Slide 12: When to Go Custom -->
+        <div class="slide" data-slide="12">
+            <h2 class="slide-title">When to Choose Custom Engine</h2>
+            <div class="slide-content two-column">
+                <div>
+                    <h3 style="color: #50E6FF; margin-bottom: 20px;">Use Custom Engine When:</h3>
+                    <ul class="bullet-list" style="font-size: 1.2rem;">
+                        <li>Complex multi-step reasoning required</li>
+                        <li>Need to integrate custom/fine-tuned LLM</li>
+                        <li>Custom tool orchestration logic needed</li>
+                        <li>Persistent memory across sessions</li>
+                        <li>Advanced error handling required</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="color: #50E6FF; margin-bottom: 20px;">Comparison</h3>
+                    <table class="comparison-table" style="font-size: 1rem;">
+                        <tr>
+                            <th>Factor</th>
+                            <th>Declarative</th>
+                            <th>Custom</th>
+                        </tr>
+                        <tr>
+                            <td>Speed</td>
+                            <td>Hours</td>
+                            <td>Days</td>
+                        </tr>
+                        <tr>
+                            <td>Customization</td>
+                            <td>Limited</td>
+                            <td>Unlimited</td>
+                        </tr>
+                        <tr>
+                            <td>Maintenance</td>
+                            <td>Low</td>
+                            <td>Higher</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="speaker-notes">
+                Declarative agents are great, but sometimes you need more control.
+                Think of it this way: If declarative agents are like Squarespace, custom engine agents are like writing from scratch with React.
+            </div>
+        </div>
+
+        <!-- Slide 13: M365 Agents Toolkit -->
+        <div class="slide" data-slide="13">
+            <h2 class="slide-title">M365 Agents Toolkit</h2>
+            <div class="slide-content two-column">
+                <div>
+                    <h3 style="color: #50E6FF; margin-bottom: 20px;">VS Code Extension Features</h3>
+                    <ul class="bullet-list" style="font-size: 1.2rem;">
+                        <li>Project templates & scaffolding</li>
+                        <li>Local debugging (F5)</li>
+                        <li>Manifest validation</li>
+                        <li>Azure deployment</li>
+                        <li>Teams integration</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="code-block" style="font-size: 1rem;">
+<span class="code-comment">// Project Structure</span>
+my-agent/
+├── appPackage/
+│   ├── manifest.json
+│   ├── declarativeAgent.json
+│   └── ai-plugin.json
+├── src/
+│   └── api/
+├── .env
+└── teamsapp.yml
+                    </div>
+                </div>
+            </div>
+            <div class="speaker-notes">
+                The M365 Agents Toolkit is a VS Code extension that gives you everything you need.
+                The appPackage folder is where your agent's identity lives. The src folder is where your custom logic goes.
+            </div>
+        </div>
+
+        <!-- Slide 14: TypeSpec Introduction -->
+        <div class="slide" data-slide="14">
+            <h2 class="slide-title">TypeSpec for API Definitions</h2>
+            <div class="slide-content two-column">
+                <div>
+                    <p style="font-size: 1.2rem; margin-bottom: 20px; color: #aaa;">
+                        Type-safe language that compiles to OpenAPI.
+                        Catches errors at compile time, not runtime.
+                    </p>
+                    <div class="code-block" style="font-size: 1rem;">
+<span class="code-keyword">@route</span>(<span class="code-string">"/repairs"</span>)
+<span class="code-keyword">interface</span> RepairOperations {
+  <span class="code-keyword">@get</span>
+  list(): Repair[];
+
+  <span class="code-keyword">@post</span>
+  create(<span class="code-keyword">@body</span> request: RepairRequest): Repair;
+}
+                    </div>
+                </div>
+                <div>
+                    <h3 style="color: #50E6FF; margin-bottom: 20px;">Benefits</h3>
+                    <ul class="bullet-list" style="font-size: 1.2rem;">
+                        <li>Type safety</li>
+                        <li>Compiles to OpenAPI</li>
+                        <li>Cleaner than raw JSON</li>
+                        <li>IDE support</li>
+                        <li>Validation at compile time</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="speaker-notes">
+                TypeSpec is a language developed by Microsoft for defining API contracts.
+                It's type-safe, compiles to OpenAPI, and catches errors before runtime.
+                This is much cleaner than writing raw OpenAPI JSON.
+            </div>
+        </div>
+
+        <!-- Slide 15: Plugins -->
+        <div class="slide" data-slide="15">
+            <h2 class="slide-title">Adding Actions with Plugins</h2>
+            <div class="slide-content">
+                <p style="font-size: 1.3rem; margin-bottom: 30px; text-align: center; color: #aaa;">
+                    Plugins wrap APIs to make them understandable to the AI.
+                    The <strong style="color: #50E6FF;">description is critical</strong> - the AI uses it to decide when to call your function.
+                </p>
+                <div class="code-block" style="max-width: 800px; margin: 0 auto;">
+{
+  <span class="code-property">"functions"</span>: [{
+    <span class="code-property">"name"</span>: <span class="code-string">"getRepairStatus"</span>,
+    <span class="code-property">"description"</span>: <span class="code-string">"Get the current status of a repair ticket"</span>,
+    <span class="code-property">"parameters"</span>: {
+      <span class="code-property">"type"</span>: <span class="code-string">"object"</span>,
+      <span class="code-property">"properties"</span>: {
+        <span class="code-property">"ticketId"</span>: { <span class="code-property">"type"</span>: <span class="code-string">"string"</span> }
+      }
+    }
+  }]
+}
+                </div>
+            </div>
+            <div class="speaker-notes">
+                Plugins let agents DO things. A plugin is a wrapper around an API that makes it understandable to the AI.
+                You define what the plugin does, what inputs it needs, and what it returns.
+                The description is critical - be specific and clear.
+            </div>
+        </div>
+
+        <!-- Slide 16: Copilot Connectors -->
+        <div class="slide" data-slide="16">
+            <h2 class="slide-title">Knowledge with Copilot Connectors</h2>
+            <div class="slide-content">
+                <div class="highlight-box" style="font-size: 1.5rem; text-align: center; margin-bottom: 40px;">
+                    Plugins let agents <strong>DO</strong> things. Connectors let agents <strong>KNOW</strong> things.
+                </div>
+                <div class="diagram-box">
+                    <div class="diagram-item">
+                        <h3>SharePoint</h3>
+                        <p>Documents & Files</p>
+                    </div>
+                    <span class="arrow">→</span>
+                    <div class="diagram-item">
+                        <h3>Connector</h3>
+                        <p>Ingest & Index</p>
+                    </div>
+                    <span class="arrow">→</span>
+                    <div class="diagram-item">
+                        <h3>Agent</h3>
+                        <p>Search & Answer</p>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 30px; color: #888;">
+                    Connectors ingest data from external sources and make it searchable.
+                </p>
+            </div>
+            <div class="speaker-notes">
+                Plugins let agents DO things. Connectors let agents KNOW things.
+                Copilot Connectors ingest data from external sources like SharePoint, databases, and custom apps, making it searchable by your agent.
+            </div>
+        </div>
+
+        <!-- Slide 17: Semantic Kernel -->
+        <div class="slide" data-slide="17">
+            <h2 class="slide-title">Semantic Kernel</h2>
+            <div class="slide-content two-column">
+                <div>
+                    <p style="font-size: 1.2rem; margin-bottom: 20px; color: #aaa;">
+                        Microsoft's AI orchestration SDK - the backbone of your custom agent.
+                    </p>
+                    <ul class="bullet-list" style="font-size: 1.2rem;">
+                        <li>Plugin management</li>
+                        <li>Memory & context handling</li>
+                        <li>Planners for complex tasks</li>
+                        <li>Custom orchestration</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="code-block" style="font-size: 1rem;">
+<span class="code-keyword">const</span> kernel = <span class="code-keyword">new</span> Kernel();
+
+<span class="code-comment">// Add plugins</span>
+kernel.addPlugin(
+  <span class="code-keyword">new</span> SearchPlugin(),
+  <span class="code-string">"search"</span>
+);
+
+<span class="code-comment">// Invoke prompt</span>
+<span class="code-keyword">const</span> response = <span class="code-keyword">await</span> kernel
+  .invokePrompt(<span class="code-string">"Summarize: {{$input}}"</span>);
+                    </div>
+                </div>
+            </div>
+            <div class="speaker-notes">
+                Semantic Kernel is Microsoft's AI orchestration SDK. Think of it as the backbone of your custom agent.
+                It provides plugin management, memory handling, planners for complex tasks, and custom orchestration.
+            </div>
+        </div>
+
+        <!-- Slide 18: Lab Preview -->
+        <div class="slide" data-slide="18">
+            <h2 class="slide-title">Today's Labs</h2>
+            <div class="slide-content">
+                <div class="diagram-box" style="flex-direction: column; gap: 30px;">
+                    <div class="diagram-item" style="width: 80%;">
+                        <h3>Lab 1: Repair Service Agent (45 min)</h3>
+                        <p>Declarative agent with TypeSpec API plugin</p>
+                    </div>
+                    <div class="diagram-item" style="width: 80%;">
+                        <h3>Lab 2: Geo Locator Game (40 min)</h3>
+                        <p>Instructions-based agent - master prompt engineering</p>
+                    </div>
+                    <div class="diagram-item" style="width: 80%;">
+                        <h3>Lab 3: Research Assistant (45 min)</h3>
+                        <p>Custom engine with M365 SDK & Semantic Kernel</p>
+                    </div>
+                </div>
+            </div>
+            <div class="speaker-notes">
+                You'll build three agents today. Lab 1 is declarative with TypeSpec.
+                Lab 2 focuses on instruction engineering - no API, just prompts.
+                Lab 3 is the advanced custom engine agent with Semantic Kernel.
+            </div>
+        </div>
+
+        <!-- Slide 19: Summary -->
+        <div class="slide" data-slide="19">
+            <h2 class="slide-title">Key Takeaways</h2>
+            <div class="slide-content">
+                <ul class="bullet-list">
+                    <li>Copilots assist, Agents act autonomously</li>
+                    <li>Declarative agents: Fast, configuration-based</li>
+                    <li>Custom engine agents: Full control, complex scenarios</li>
+                    <li>TypeSpec provides type-safe API definitions</li>
+                    <li>Plugins enable actions, Connectors enable knowledge</li>
+                    <li>Semantic Kernel orchestrates AI workflows</li>
+                    <li>M365 Agents Toolkit is your development workbench</li>
+                </ul>
+            </div>
+            <div class="speaker-notes">
+                Let's recap. Copilots assist, Agents act autonomously.
+                Choose declarative for speed, custom for control.
+                Remember: plugins for actions, connectors for knowledge.
+                Now let's put this into practice with Lab 1!
+            </div>
+        </div>
+
+        <!-- Slide 20: Questions -->
+        <div class="slide" data-slide="20">
+            <h2 class="slide-title">Questions?</h2>
+            <div class="slide-content flex-center">
+                <div class="icon-large">💬</div>
+                <p style="font-size: 1.5rem; color: #888; margin-top: 20px;">
+                    Time for Q&A before we begin Lab 1
+                </p>
+                <div class="highlight-box" style="margin-top: 40px;">
+                    <p style="font-size: 1.2rem;">
+                        <strong>Next:</strong> Lab 1 - Repair Service Declarative Agent
+                    </p>
+                </div>
+            </div>
+            <div class="speaker-notes">
+                What questions do you have? Any concepts unclear?
+                After questions, we'll jump into Lab 1 where you'll build your first declarative agent.
+            </div>
+        </div>
+    </div>
+
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="slide-counter" id="slideCounter">1 / 19</div>
+    <div class="nav-hint">Use ← → arrow keys or click to navigate | Press 'N' for speaker notes</div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 20;
+        let showingNotes = false;
+
+        function updateSlide() {
+            // Hide all slides
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            // Show current slide
+            const activeSlide = document.querySelector(`[data-slide="${currentSlide}"]`);
+            if (activeSlide) {
+                activeSlide.classList.add('active');
+
+                // Animate bullet points
+                const bullets = activeSlide.querySelectorAll('.bullet-list li');
+                bullets.forEach((bullet, index) => {
+                    setTimeout(() => {
+                        bullet.classList.add('visible');
+                    }, index * 200);
+                });
+            }
+
+            // Update progress bar
+            document.getElementById('progressBar').style.width =
+                `${(currentSlide / totalSlides) * 100}%`;
+
+            // Update counter
+            document.getElementById('slideCounter').textContent =
+                `${currentSlide} / ${totalSlides}`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        function toggleNotes() {
+            showingNotes = !showingNotes;
+            const notes = document.querySelectorAll('.speaker-notes');
+            notes.forEach(note => {
+                note.style.display = showingNotes ? 'block' : 'none';
+                note.style.position = 'fixed';
+                note.style.bottom = '60px';
+                note.style.left = '30px';
+                note.style.right = '30px';
+                note.style.background = 'rgba(0,0,0,0.9)';
+                note.style.padding = '20px';
+                note.style.borderRadius = '8px';
+                note.style.color = '#ffcc00';
+                note.style.fontSize = '1rem';
+                note.style.zIndex = '1000';
+            });
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            } else if (e.key === 'n' || e.key === 'N') {
+                toggleNotes();
+            }
+        });
+
+        // Click navigation
+        document.addEventListener('click', (e) => {
+            if (e.clientX > window.innerWidth / 2) {
+                nextSlide();
+            } else {
+                prevSlide();
+            }
+        });
+
+        // Initialize
+        updateSlide();
+    </script>
+</body>
+</html>
