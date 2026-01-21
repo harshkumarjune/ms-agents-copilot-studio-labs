@@ -1,0 +1,268 @@
+# Contoso Electronics Product Catalog
+# Upload this file to Copilot Studio Knowledge
+
+## Laptops
+
+### ProBook Elite 15 - $1,299.99
+- Category: Laptops
+- Brand: Contoso
+- Rating: 4.7/5 stars
+- In Stock: Yes
+- Description: High-performance business laptop with 14th Gen Intel Core i7, perfect for professionals who need power and portability.
+- Key Features:
+  * 16GB RAM
+  * 512GB SSD
+  * 14-hour battery life
+  * Thunderbolt 4 ports
+  * Fingerprint reader
+- Specs: 15.6" FHD IPS Display, Intel Core i7-14700H, 16GB DDR5, Intel Iris Xe Graphics
+- Best For: Business professionals, remote workers, productivity tasks
+- Warranty: 2 years
+
+### CreatorStudio 16 - $2,199.99
+- Category: Laptops
+- Brand: Contoso
+- Rating: 4.9/5 stars
+- In Stock: Yes
+- Description: Ultimate creative workstation laptop with NVIDIA RTX graphics and color-accurate display for designers and content creators.
+- Key Features:
+  * 32GB RAM
+  * 1TB SSD
+  * RTX 4070 graphics
+  * 4K OLED Display
+  * Pantone Validated colors
+- Specs: 16" 4K OLED, Intel Core i9-14900H, 32GB DDR5, NVIDIA RTX 4070
+- Best For: Video editors, 3D designers, content creators, gaming
+- Warranty: 2 years
+
+## Smartphones
+
+### Galaxy Pro Max - $1,099.99
+- Category: Smartphones
+- Brand: Contoso
+- Rating: 4.8/5 stars
+- In Stock: Yes
+- Description: Flagship smartphone with revolutionary AI camera system and all-day battery life.
+- Key Features:
+  * 200MP main camera
+  * 5000mAh battery
+  * Titanium frame
+  * AI photo enhancement
+  * Satellite SOS
+- Specs: 6.8" Dynamic AMOLED, Snapdragon 8 Gen 3, 12GB RAM, 256GB storage, 5G
+- Best For: Photography enthusiasts, power users, professionals
+- Warranty: 1 year
+
+### Pixel Ultra - $899.99
+- Category: Smartphones
+- Brand: Google
+- Rating: 4.6/5 stars
+- In Stock: Yes
+- Description: Pure Android experience with Google AI and exceptional computational photography.
+- Key Features:
+  * 50MP triple camera
+  * Google AI built-in
+  * 7 years of updates
+  * Magic Eraser
+  * Call Screen
+- Specs: 6.7" LTPO OLED, Google Tensor G4, 12GB RAM, 128GB storage, 5G
+- Best For: Android purists, Google ecosystem users, photo lovers
+- Warranty: 2 years
+
+## Audio
+
+### SoundMax Pro - $349.99
+- Category: Audio / Headphones
+- Brand: Contoso
+- Rating: 4.8/5 stars
+- In Stock: Yes
+- Description: Premium wireless headphones with industry-leading noise cancellation and spatial audio.
+- Key Features:
+  * 40-hour battery
+  * Active Noise Cancellation
+  * Spatial Audio
+  * Multipoint connection
+  * Hi-Res Audio certified
+- Specs: 40mm drivers, 4Hz-40kHz frequency, LDAC/AAC/SBC codecs
+- Best For: Travelers, audiophiles, remote workers, music lovers
+- Warranty: 2 years
+
+### SoundBuds Lite - $79.99
+- Category: Audio / Earbuds
+- Brand: Contoso
+- Rating: 4.3/5 stars
+- In Stock: Yes
+- Description: Affordable wireless earbuds with great sound quality and comfortable fit.
+- Key Features:
+  * 24-hour battery with case
+  * Touch controls
+  * IPX4 water resistant
+  * Quick charge
+  * Ambient mode
+- Specs: 10mm drivers, Bluetooth 5.3, USB-C charging
+- Best For: Budget-conscious buyers, gym-goers, casual listeners
+- Warranty: 1 year
+
+## Wearables
+
+### FitTrack Ultra - $449.99
+- Category: Wearables / Smartwatch
+- Brand: Contoso
+- Rating: 4.7/5 stars
+- In Stock: NO - Currently out of stock
+- Description: Advanced smartwatch with comprehensive health monitoring and fitness tracking.
+- Key Features:
+  * ECG monitor
+  * Blood oxygen sensor
+  * Built-in GPS
+  * 5ATM water resistant
+  * Sleep tracking
+- Specs: 1.4" AMOLED, Exynos W930, 16GB storage, 40-hour battery
+- Best For: Fitness enthusiasts, health-conscious users
+- Note: OUT OF STOCK - Expected restock: February 2026
+- Warranty: 2 years
+
+### FitBand Basic - $149.99
+- Category: Wearables / Fitness Band
+- Brand: Contoso
+- Rating: 4.4/5 stars
+- In Stock: Yes
+- Description: Simple fitness tracker with essential health features at an affordable price.
+- Key Features:
+  * Heart rate monitoring
+  * Step counting
+  * Sleep tracking
+  * 7-day battery
+  * Water resistant
+- Specs: 0.9" OLED, 14-day battery, 5ATM water resistant
+- Best For: Fitness beginners, budget-conscious buyers
+- Warranty: 1 year
+
+## TVs
+
+### CinemaView 65 OLED - $1,999.99
+- Category: TVs
+- Brand: Contoso
+- Rating: 4.9/5 stars
+- In Stock: Yes
+- Description: Stunning 65-inch OLED TV with perfect blacks, infinite contrast, and cinematic Dolby Vision.
+- Key Features:
+  * OLED display technology
+  * Dolby Vision IQ
+  * 120Hz gaming mode
+  * 4x HDMI 2.1 ports
+  * webOS smart platform
+- Specs: 65" 4K OLED, 120Hz, Dolby Atmos, webOS 24
+- Best For: Movie lovers, gamers, home theater enthusiasts
+- Warranty: 2 years
+
+### SmartView 55 LED - $699.99
+- Category: TVs
+- Brand: Contoso
+- Rating: 4.5/5 stars
+- In Stock: Yes
+- Description: Affordable 55-inch LED TV with smart features and good picture quality.
+- Key Features:
+  * 4K UHD resolution
+  * HDR10 support
+  * Built-in streaming apps
+  * 3x HDMI ports
+  * Voice control
+- Specs: 55" 4K LED, 60Hz, HDR10, webOS 23
+- Best For: Budget buyers, bedroom/office use
+- Warranty: 2 years
+
+## Tablets
+
+### ProPad Air - $799.99
+- Category: Tablets
+- Brand: Contoso
+- Rating: 4.5/5 stars
+- In Stock: Yes
+- Description: Versatile tablet for work and entertainment with desktop-class performance.
+- Key Features:
+  * M2 Chip
+  * 10-hour battery
+  * Pencil support
+  * Face ID
+  * USB-C
+- Specs: 11" Liquid Retina, M2 processor, 8GB RAM, 256GB storage
+- Best For: Students, professionals, artists
+- Warranty: 1 year
+
+## Accessories
+
+### PowerBank Ultra 20000 - $59.99
+- Category: Accessories / Power
+- Brand: Contoso
+- Rating: 4.6/5 stars
+- In Stock: Yes
+- Description: High-capacity portable charger with fast charging support.
+- Key Features:
+  * 20000mAh capacity
+  * 65W fast charging
+  * USB-C + USB-A ports
+  * LED display
+  * Airline approved
+- Best For: Travelers, heavy phone users
+- Warranty: 2 years
+
+### USB-C Hub Pro - $89.99
+- Category: Accessories / Connectivity
+- Brand: Contoso
+- Rating: 4.7/5 stars
+- In Stock: Yes
+- Description: All-in-one USB-C hub for laptops with multiple ports.
+- Key Features:
+  * 4K HDMI output
+  * 3x USB-A ports
+  * SD card reader
+  * 100W passthrough charging
+  * Ethernet port
+- Best For: Laptop users needing more connectivity
+- Warranty: 2 years
+
+---
+# Price Summary by Category
+
+## Under $100
+- SoundBuds Lite: $79.99
+- PowerBank Ultra: $59.99
+- USB-C Hub Pro: $89.99
+
+## $100 - $500
+- FitBand Basic: $149.99
+- SoundMax Pro: $349.99
+- FitTrack Ultra: $449.99 (OUT OF STOCK)
+
+## $500 - $1000
+- SmartView 55 LED: $699.99
+- ProPad Air: $799.99
+- Pixel Ultra: $899.99
+
+## $1000+
+- Galaxy Pro Max: $1,099.99
+- ProBook Elite 15: $1,299.99
+- CinemaView 65 OLED: $1,999.99
+- CreatorStudio 16: $2,199.99
+
+---
+# Frequently Asked Questions
+
+Q: What's your best laptop for video editing?
+A: The CreatorStudio 16 ($2,199.99) is our top choice for video editing with its RTX 4070 graphics, 32GB RAM, and 4K OLED display.
+
+Q: What's the most affordable smartphone?
+A: The Pixel Ultra at $899.99 is our most affordable smartphone option.
+
+Q: Do you have any products under $100?
+A: Yes! SoundBuds Lite ($79.99), PowerBank Ultra ($59.99), and USB-C Hub Pro ($89.99).
+
+Q: What's currently out of stock?
+A: The FitTrack Ultra smartwatch is currently out of stock, expected back in February 2026.
+
+Q: What has the best battery life?
+A: For laptops: ProBook Elite 15 (14 hours). For phones: Galaxy Pro Max (5000mAh). For headphones: SoundMax Pro (40 hours).
+
+Q: What's best for gaming?
+A: For laptop gaming: CreatorStudio 16 with RTX 4070. For TV gaming: CinemaView 65 OLED with 120Hz and HDMI 2.1.

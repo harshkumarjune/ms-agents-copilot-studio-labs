@@ -359,17 +359,18 @@
             <h2 class="slide-title">Day 2 Agenda</h2>
             <div class="slide-content">
                 <ul class="bullet-list">
-                    <li>Module 2: Copilot Studio Pro-Code Features</li>
-                    <li>Model Context Protocol (MCP) Deep Dive</li>
-                    <li>Lab 4: Deploy MCP Server to Copilot Studio</li>
-                    <li>Azure AI Foundry & BYOM Integration</li>
+                    <li>Review Day 1 & Lab 3: Multi-Step Workflow Agent</li>
+                    <li>Module 2: Pro-Code Concepts & External Integrations</li>
+                    <li>Lab 4: Custom API Connector (Free Hosting + HTTP Actions)</li>
+                    <li>Knowledge & RAG Patterns</li>
+                    <li>Lab 5: Knowledge-Powered Retail Agent</li>
                     <li>Module 3: Agent Governance & Security</li>
-                    <li>Lab 5: Retail Agent with Azure AI Search</li>
                     <li>Certification Paths & Next Steps</li>
                 </ul>
             </div>
             <div class="speaker-notes">
-                Today covers two modules. Module 2 is about Copilot Studio's pro-code capabilities including MCP.
+                Today we complete three more labs. Lab 3 builds complex workflows.
+                Lab 4 connects to external APIs using free hosting. Lab 5 uses knowledge files for RAG.
                 Module 3 covers governance - crucial for enterprise deployment.
             </div>
         </div>
@@ -650,42 +651,45 @@ server.setRequestHandler(CallToolRequestSchema, <span class="code-keyword">async
             </div>
         </div>
 
-        <!-- Slide 11: Azure AI Search -->
+        <!-- Slide 11: Knowledge & RAG -->
         <div class="slide" data-slide="11">
-            <h2 class="slide-title">Azure AI Search for RAG</h2>
+            <h2 class="slide-title">Knowledge & RAG Patterns</h2>
             <div class="slide-content">
                 <div class="diagram-box" style="margin-bottom: 30px;">
                     <div class="diagram-item">
                         <h3>Documents</h3>
-                        <p>PDFs, Word, Web</p>
+                        <p>Files, PDFs, Text</p>
                     </div>
                     <span class="arrow">→</span>
                     <div class="diagram-item">
                         <h3>Index</h3>
-                        <p>Vector + Semantic</p>
+                        <p>Knowledge Store</p>
                     </div>
                     <span class="arrow">→</span>
                     <div class="diagram-item">
                         <h3>Retrieve</h3>
-                        <p>Hybrid Search</p>
+                        <p>Semantic Search</p>
                     </div>
                     <span class="arrow">→</span>
                     <div class="diagram-item">
                         <h3>Generate</h3>
-                        <p>LLM Response</p>
+                        <p>Grounded Response</p>
                     </div>
                 </div>
                 <div class="highlight-box">
                     <p style="font-size: 1.2rem;">
                         <strong>RAG = Retrieval-Augmented Generation</strong><br>
-                        Combine search with generation for accurate, grounded responses.
+                        Copilot Studio supports: File uploads, SharePoint, Dataverse, Azure AI Search (enterprise)
                     </p>
                 </div>
+                <p style="text-align: center; color: #888; margin-top: 20px;">
+                    In Lab 5, we'll use file upload to provide product knowledge to our agent.
+                </p>
             </div>
             <div class="speaker-notes">
-                RAG combines search with generation. Azure AI Search provides the retrieval component.
-                It supports vector search, semantic ranking, and hybrid approaches.
-                This gives agents accurate, grounded responses from your data.
+                RAG combines search with generation. Copilot Studio supports multiple knowledge sources.
+                For our lab, we'll use file upload - the simplest approach.
+                In production, you'd use Azure AI Search for larger datasets and advanced features.
             </div>
         </div>
 
@@ -899,21 +903,26 @@ server.setRequestHandler(CallToolRequestSchema, <span class="code-keyword">async
         <div class="slide" data-slide="18">
             <h2 class="slide-title">Today's Labs</h2>
             <div class="slide-content">
-                <div class="diagram-box" style="flex-direction: column; gap: 30px;">
+                <div class="diagram-box" style="flex-direction: column; gap: 25px;">
                     <div class="diagram-item" style="width: 80%;">
-                        <h3>Lab 4: MCP Server Deployment (45 min)</h3>
-                        <p>Build and deploy MCP server to Copilot Studio</p>
+                        <h3>Lab 3: Multi-Step Workflow Agent (75 min)</h3>
+                        <p>IT Helpdesk with password reset, software requests & troubleshooting flows</p>
                     </div>
                     <div class="diagram-item" style="width: 80%;">
-                        <h3>Lab 5: Retail Agent with AI Search (45 min)</h3>
-                        <p>Azure AI Search, RAG pattern, BYOM integration</p>
+                        <h3>Lab 4: Custom API Connector (75 min)</h3>
+                        <p>Deploy API to Replit (free) and connect via HTTP Actions</p>
+                    </div>
+                    <div class="diagram-item" style="width: 80%;">
+                        <h3>Lab 5: Knowledge-Powered Agent (60 min)</h3>
+                        <p>Upload product catalog and build grounded retail assistant</p>
                     </div>
                 </div>
             </div>
             <div class="speaker-notes">
-                Today you'll complete two labs.
-                Lab 4 builds and deploys an MCP server to Copilot Studio.
-                Lab 5 creates a retail agent using Azure AI Search and BYOM.
+                Today you'll complete three labs.
+                Lab 3 builds complex multi-step workflows with verification and approval flows.
+                Lab 4 deploys an API to free hosting and connects it to Copilot Studio.
+                Lab 5 creates a retail agent using uploaded knowledge files for accurate, grounded responses.
             </div>
         </div>
 
